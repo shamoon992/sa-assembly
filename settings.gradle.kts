@@ -1,5 +1,19 @@
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        google()
+    }
 }
+
+dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        google()
+    }
+}
+
 rootProject.name = "sa-assembly"
 include("assembly")
