@@ -1,11 +1,10 @@
-package com.saappcrafters
+package com.saappcrafters.utils
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -20,16 +19,16 @@ internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = 34
+        compileSdk = ANDROID_TARGET_SDK
 
         defaultConfig {
-            minSdk = 23
+            minSdk = ANDROID_MIN_SDK
         }
 
         compileOptions {
 
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
+            sourceCompatibility = JAVA_LANGUAGE_VERSION
+            targetCompatibility = JAVA_LANGUAGE_VERSION
         }
     }
 
@@ -45,7 +44,7 @@ private fun Project.configureKotlin() {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
             // Set JVM target to 17
-            jvmTarget = JavaVersion.VERSION_17.toString()
+            jvmTarget = JAVA_LANGUAGE_VERSION.toString()
             // Treat all Kotlin warnings as errors (disabled by default)
             // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
             val warningsAsErrors: String? by project
@@ -67,8 +66,8 @@ internal fun Project.configureKotlinJvm() {
     extensions.configure<JavaPluginExtension> {
         // Up to Java 17 APIs are available through desugaring
         // https://developer.android.com/studio/write/java11-minimal-support-table
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JAVA_LANGUAGE_VERSION
+        targetCompatibility = JAVA_LANGUAGE_VERSION
     }
 
     configureKotlin()

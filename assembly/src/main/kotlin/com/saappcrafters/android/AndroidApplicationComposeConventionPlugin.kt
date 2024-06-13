@@ -1,5 +1,7 @@
+package com.saappcrafters.android
+
 import com.android.build.api.dsl.ApplicationExtension
-import com.saappcrafters.configureAndroidCompose
+import com.saappcrafters.utils.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

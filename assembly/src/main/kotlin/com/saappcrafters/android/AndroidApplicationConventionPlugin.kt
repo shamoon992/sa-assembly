@@ -1,5 +1,8 @@
+package com.saappcrafters.android
+
 import com.android.build.api.dsl.ApplicationExtension
-import com.saappcrafters.configureKotlinAndroid
+import com.saappcrafters.utils.ANDROID_TARGET_SDK
+import com.saappcrafters.utils.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -22,7 +25,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 34
+                defaultConfig.targetSdk = ANDROID_TARGET_SDK
             }
         }
     }

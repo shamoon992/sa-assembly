@@ -1,5 +1,7 @@
+package com.saappcrafters.android
+
 import com.google.devtools.ksp.gradle.KspExtension
-import com.saappcrafters.libs
+import com.saappcrafters.utils.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.InputDirectory

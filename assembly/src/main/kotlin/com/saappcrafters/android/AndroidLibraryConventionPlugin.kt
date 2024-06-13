@@ -1,6 +1,9 @@
+package com.saappcrafters.android
+
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
-import com.saappcrafters.configureKotlinAndroid
+import com.saappcrafters.utils.ANDROID_TARGET_SDK
+import com.saappcrafters.utils.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -23,7 +26,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 34
+                defaultConfig.targetSdk = ANDROID_TARGET_SDK
             }
             extensions.configure<LibraryAndroidComponentsExtension> {
                 //configurePrintApksTask(this)

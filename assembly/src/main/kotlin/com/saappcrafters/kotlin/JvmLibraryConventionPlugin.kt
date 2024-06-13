@@ -1,4 +1,6 @@
-import com.saappcrafters.configureKotlinJvm
+package com.saappcrafters.kotlin
+
+import com.saappcrafters.utils.configureKotlinJvm
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

@@ -1,5 +1,7 @@
+package com.saappcrafters.android
+
 import com.android.build.gradle.LibraryExtension
-import com.saappcrafters.libs
+import com.saappcrafters.utils.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

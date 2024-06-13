@@ -1,4 +1,4 @@
-package com.saappcrafters
+package com.saappcrafters.utils
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project

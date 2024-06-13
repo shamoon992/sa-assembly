@@ -1,4 +1,6 @@
-import com.saappcrafters.libs
+package com.saappcrafters.android
+
+import com.saappcrafters.utils.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
