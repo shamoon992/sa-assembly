@@ -1,8 +1,10 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.libsDirectory
+@file:Suppress("UnstableApiUsage")
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `kotlin-dsl`
+    alias(libs.plugins.gradle.plugin.publish)
 }
 
 group = "com.saappcrafters.assembly.plugin"
@@ -21,16 +23,76 @@ tasks.withType<KotlinCompile>().configureEach {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
+
+tasks.withType<Test>().configureEach {
+    dependsOn(tasks.test)
+    reports {
+        html.required.set(true)
+    }
+}
+
+testing {
+    suites {
+        configureEach {
+            if (this is JvmTestSuite) {
+                useJUnitJupiter()
+                sources {
+                    compileClasspath += sourceSets["main"].compileClasspath
+                }
+            }
+        }
+        val test by getting(JvmTestSuite::class)
+        register<JvmTestSuite>("integrationTest") {
+            testType.set(TestSuiteType.INTEGRATION_TEST)
+            dependencies {
+                implementation(gradleTestKit())
+                implementation(project())
+            }
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
+            }
+        }
+        register<JvmTestSuite>("functionalTest") {
+            testType.set(TestSuiteType.FUNCTIONAL_TEST)
+            dependencies {
+                implementation(gradleTestKit())
+                implementation(project())
+            }
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(testing.suites.named("integrationTest"))
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.check {
+    dependsOn(testing.suites.named("integrationTest"))
+    dependsOn(testing.suites.named("functionalTest"))
+}
+
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
+    implementation(libs.jgit)
 
+    testImplementation(gradleTestKit())
     testImplementation(kotlin("test"))
+    testImplementation(libs.bundles.junit.jupiter)
+
+    testRuntimeOnly(libs.junit.jupiter.runtime)
 }
 
-gradlePlugin{
-    plugins{
+gradlePlugin {
+    plugins {
         register("androidApplication") {
             id = "saappcrafters.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
