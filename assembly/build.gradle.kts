@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.saappcrafters.assembly.plugin"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -92,6 +92,8 @@ dependencies {
 }
 
 gradlePlugin {
+    website = "https://github.com/shamoon192/sa-assembly"
+    vcsUrl = "https://github.com/shamoon192/sa-assembly"
     plugins {
         register("androidApplication") {
             id = "saappcrafters.android.application"
@@ -138,8 +140,26 @@ gradlePlugin {
             implementationClass = "JvmLibraryConventionPlugin"
         }
     }
+    testSourceSets(sourceSets.getByName("functionalTest"))
 }
 
 tasks.test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        repositories {
+            maven {
+                name = "GithubPackages"
+                url =  uri("https://maven.pkg.github.com/shamoon992/sa-assembly")
+                credentials {
+                    // Use GITHUB_ACTOR for username
+                    username =  System.getenv("GITHUB_ACTOR")
+                    // Use a personal access token for password
+                    password =  System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
+    }
 }
