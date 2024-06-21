@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `kotlin-dsl`
+    `maven-publish`
     alias(libs.plugins.gradle.plugin.publish)
 }
 
