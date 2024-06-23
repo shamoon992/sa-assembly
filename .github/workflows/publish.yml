@@ -16,6 +16,9 @@ jobs:
       - name: List Files
         run: ls -la
 
+      - name: Grant permission for gradlew to execute
+        run: chmod +x gradlew
+
       - name: Checkout
         uses: actions/checkout@v4  # Checkout the code
 
@@ -26,11 +29,6 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle' # Leverage caching for faster builds
       - run: ./gradlew build --no-daemon
-
-
-
-        # - name: Grant permission for gradlew to execute
-      #  run: chmod +x gradlew
 
       - name: Build with Gradle sa-assembly
         run: ./gradlew assemble  # Build your build logic
