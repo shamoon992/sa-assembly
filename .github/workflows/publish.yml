@@ -17,7 +17,10 @@ jobs:
         run: ls -la
 
       - name: Grant permission for gradlew to execute
-        run: chmod +x gradlew
+        run: bash -c "chmod +x gradlew"
+
+      - name: Check gradlew permissions
+        run: ls -l gradlew
 
       - name: Checkout
         uses: actions/checkout@v4  # Checkout the code
