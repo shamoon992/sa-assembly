@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ] # Trigger on pushes to the main branch
+  release:
+    types: [ created ] # Trigger on new release creation
 
 jobs:
   publish:
@@ -11,25 +13,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: List Files
+        run: ls -la
+
+      - name: Checkout
+        uses: actions/checkout@v4  # Checkout the code
+
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: 'gradle' # Leverage caching for faster builds
+      - run: ./gradlew build --no-daemon
 
-      - name: Checkout
-        uses: actions/checkout@v3  # Checkout the code
 
-      - name: Grant permission for gradlew to execute
-        run: chmod +x gradlew
+
+        # - name: Grant permission for gradlew to execute
+      #  run: chmod +x gradlew
 
       - name: Build with Gradle sa-assembly
         run: ./gradlew assemble  # Build your build logic
 
-      - name: Publish to GitHub Packages
-        run: ./gradlew publish  # Publish to GitHub Packages
+        # - name: Publish to GitHub Packages
+        #  run: ./gradlew publish  # Publish to GitHub Packages
 
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # env:
+          #   GITHUB_ACTOR: ${{ github.actor }}
+        #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
