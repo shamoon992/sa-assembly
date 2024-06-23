@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ] # Trigger on pushes to the main branch
-  release:
-    types: [ created ] # Trigger on new release creation
 
 jobs:
   publish:
@@ -38,9 +36,9 @@ jobs:
       - name: Assemble sa-assembly
         run: ./gradlew assemble  # Build your build logic
 
-        # - name: Publish to GitHub Packages
-        #  run: ./gradlew publish  # Publish to GitHub Packages
+      - name: Publish to GitHub Packages
+        run: ./gradlew publish  # Publish to GitHub Packages
 
-          # env:
-          #   GITHUB_ACTOR: ${{ github.actor }}
-        #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
