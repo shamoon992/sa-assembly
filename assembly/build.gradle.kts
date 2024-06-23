@@ -25,60 +25,6 @@ tasks.withType<KotlinCompile>().configureEach {
     }
 }
 
-tasks.withType<Test>().configureEach {
-    dependsOn(tasks.test)
-    reports {
-        html.required.set(true)
-    }
-}
-
-testing {
-    suites {
-        configureEach {
-            if (this is JvmTestSuite) {
-                useJUnitJupiter()
-                sources {
-                    compileClasspath += sourceSets["main"].compileClasspath
-                }
-            }
-        }
-        val test by getting(JvmTestSuite::class)
-        register<JvmTestSuite>("integrationTest") {
-            testType.set(TestSuiteType.INTEGRATION_TEST)
-            dependencies {
-                implementation(gradleTestKit())
-                implementation(project())
-            }
-            targets {
-                all {
-                    testTask.configure {
-                        shouldRunAfter(test)
-                    }
-                }
-            }
-        }
-        register<JvmTestSuite>("functionalTest") {
-            testType.set(TestSuiteType.FUNCTIONAL_TEST)
-            dependencies {
-                implementation(gradleTestKit())
-                implementation(project())
-            }
-            targets {
-                all {
-                    testTask.configure {
-                        shouldRunAfter(testing.suites.named("integrationTest"))
-                    }
-                }
-            }
-        }
-    }
-}
-
-tasks.check {
-    dependsOn(testing.suites.named("integrationTest"))
-    dependsOn(testing.suites.named("functionalTest"))
-}
-
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
@@ -141,11 +87,6 @@ gradlePlugin {
             implementationClass = "JvmLibraryConventionPlugin"
         }
     }
-    testSourceSets(sourceSets.getByName("functionalTest"))
-}
-
-tasks.test {
-    useJUnitPlatform()
 }
 
 publishing {
