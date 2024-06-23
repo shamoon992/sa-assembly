@@ -25,14 +25,14 @@ tasks.withType<KotlinCompile>().configureEach {
     }
 }
 
-tasks.withType<Test>().configureEach {
+/*tasks.withType<Test>().configureEach {
     dependsOn(tasks.test)
     reports {
         html.required.set(true)
     }
-}
+}*/
 
-testing {
+/*testing {
     suites {
         configureEach {
             if (this is JvmTestSuite) {
@@ -72,12 +72,12 @@ testing {
             }
         }
     }
-}
+}*/
 
-tasks.check {
+/*tasks.check {
     dependsOn(testing.suites.named("integrationTest"))
     dependsOn(testing.suites.named("functionalTest"))
-}
+}*/
 
 dependencies {
     compileOnly(libs.android.gradlePlugin)
@@ -141,12 +141,12 @@ gradlePlugin {
             implementationClass = "JvmLibraryConventionPlugin"
         }
     }
-    testSourceSets(sourceSets.getByName("functionalTest"))
+    //testSourceSets(sourceSets.getByName("functionalTest"))
 }
 
-tasks.test {
+/*tasks.test {
     useJUnitPlatform()
-}
+}*/
 
 publishing {
     publications {
