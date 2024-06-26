@@ -14,14 +14,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4  # Checkout the code
 
-      - name: List Files
-        run: ls -la
-
       - name: Grant permission for gradlew to execute
         run: chmod +x gradlew
-
-      - name: Check gradlew permissions
-        run: ls -l gradlew
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -30,14 +24,17 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle' # Leverage caching for faster builds
 
+      - name: Clean old build files
+        run: ./gradlew clean
+
       - name: Build with Gradle (sa-assembly)
         run: ./gradlew build --no-daemon
 
       - name: Assemble sa-assembly
-        run: ./gradlew :assembly:assemble  # Build your build logic
+        run: ./gradlew assemble  # Build your build logic
 
       - name: Publish to GitHub Packages
-        run: ./gradlew :assembly:publish  # Publish to GitHub Packages
+        run: ./gradlew publish  # Publish to GitHub Packages
 
         env:
           GITHUB_ACTOR: ${{ github.actor }}
