@@ -4,12 +4,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `kotlin-dsl`
-    `maven-publish`
     alias(libs.plugins.gradle.plugin.publish)
 }
 
-group = "com.saappcrafters.assembly.plugin"
-version = "1.0.0"
+group = "com.saappcrafters.android.build"
+version = "1.0.1"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -39,8 +38,8 @@ dependencies {
 }
 
 gradlePlugin {
-    website = "https://github.com/shamoon192/sa-assembly"
-    vcsUrl = "https://github.com/shamoon192/sa-assembly"
+    website = "https://github.com/shamoon992/sa-assembly"
+    vcsUrl = "https://github.com/shamoon992/sa-assembly"
     plugins {
         register("androidApplication") {
             id = "saappcrafters.android.application"
@@ -89,8 +88,18 @@ gradlePlugin {
     }
 }
 
-publishing {
-    publications {
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication> ("assembly") {
+                groupId = "com.saappcrafters"
+                artifactId = "assembly"
+                version = project.version.toString()
+
+                // Add the generated JAR file as an artifact
+                from(components["java"])
+            }
+        }
         repositories {
             maven {
                 name = "GithubPackages"
